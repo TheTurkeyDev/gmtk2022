@@ -11,11 +11,14 @@
 </head>
 
 <body>
+    <div id="nav">
+        <div id="settings">⛭</div>
+    </div>
     <div id="game-wrapper">
         <div id="cpu-section">
             <h2>CPU</h2>
             <div class="dice-wrapper">
-                <div class="three-dice-wrapper">
+                <div id="cpu-three-die" class="three-dice-wrapper">
                     <div class="triangle"></div>
                     <div class="three-dice" style="display: grid;">
                         <div></div>
@@ -26,7 +29,7 @@
                         <div class="dice-dot" id="cpu-tdd-3"></div>
                     </div>
                 </div>
-                <div class="six-dice" style="display: none;">
+                <div id="cpu-six-die" class="six-dice" style="display: none;">
                     <div class="dice-dot" id="cpu-dd-1"></div>
                     <div></div>
                     <div class="dice-dot" id="cpu-dd-2"></div>
@@ -37,6 +40,22 @@
                     <div></div>
                     <div class="dice-dot" id="cpu-dd-7"></div>
                 </div>
+            </div>
+            <div id="cpu-rolls-wrapper" class="dynamic-text">
+                <span>Rolls Left:</span>
+                <span id="cpu-rolls-left">7</span>
+            </div>
+            <div class="dynamic-text">
+                <span>Distance Away:</span>
+                <span id="cpu-distance-away">0</span>
+            </div>
+            <div id="links">
+                <img src="./imgs/github.png" width="24" height="24"
+                    onclick="window.open('https://theturkey.dev/github', '_blank');" />
+                <img src="./imgs/youtube.png" width="24" height="16"
+                    onclick="window.open('https://theturkey.dev/youtube', '_blank');" />
+                <img src="./imgs/twitch.png" width="21" height="24"
+                    onclick="window.open('https://theturkey.dev/twitch', '_blank');" />
             </div>
         </div>
         <canvas id="game" width="400px" height="500px"></canvas>
@@ -55,28 +74,41 @@
                     <div class="dice-dot" id="player-dd-7"></div>
                 </div>
             </div>
-            <div id="dynamic-text">
+            <div class="dynamic-text">
                 <span>Moves Left:</span>
                 <span id="player-moves-left">0</span>
             </div>
             <button id="end-turn-btn">End Turn</button>
+            <div id="effects">
+                <h2 style="margin: 0;"><u>Effects</u></h2>
+            </div>
         </div>
     </div>
     <div id="rolling-wrapper">
         <h1 id="rolling-text">Rolling...</h1>
     </div>
-    <div id="game-over-wrapper" style="display: none;">
-        <div id="game-over-surface">
-            <h1 id="game-over-text">Game Over!</h1>
+    <div id="game-over-wrapper" class="modal-wrapper" style="display: none;">
+        <div id="game-over-surface" class="surface">
+            <h1>Game Over!</h1>
             <div class="dynamic-text">
                 <h3>Final Score:</h3>
                 <h3 id="game-over-score"></h3>
             </div>
             <div class="dynamic-text">
                 <h3>High Score:</h3>
-                <h3 id="high-score">TODO</h3>
+                <h3 id="high-score">0</h3>
             </div>
             <button id="play-again-btn">Play Again</button>
+        </div>
+    </div>
+    <div id="settings-wrapper" class="modal-wrapper" style="display: none;">
+        <div id="settings-surface" class="surface">
+            <h1>Settings</h1>
+            <div class="dynamic-text">
+                <h3>Volume:</h3>
+                <input type="range" min="0" max="1" step=".05" class="slider" id="volume-slider" value="0.75" />
+            </div>
+            <button id="settings-close-btn">Close</button>
         </div>
     </div>
 </body>

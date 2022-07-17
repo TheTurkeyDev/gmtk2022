@@ -90,6 +90,18 @@ button:disabled {
     cursor: not-allowed;
 }
 
+#nav {
+    width: 100vw;
+    height: 16px;
+    display: grid;
+    justify-items: end;
+    grid-template-columns: 1fr;
+}
+
+#settings:hover {
+    cursor: pointer;
+}
+
 canvas {
     background-color: #fff;
 }
@@ -113,7 +125,7 @@ canvas {
     color: var(--error-color);
 }
 
-#game-over-wrapper {
+.modal-wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -126,15 +138,18 @@ canvas {
     justify-items: center;
 }
 
-#game-over-surface {
+.surface {
     background-color: var(--surface-on);
     color: var(--surface-color);
     display: grid;
-    grid-template-rows: auto 1fr;
     align-items: center;
     justify-items: center;
     padding: 16px;
     border-radius: 8px;
+}
+
+#game-over-surface {
+    grid-template-rows: auto 1fr;
 }
 
 .dynamic-text {
@@ -148,14 +163,13 @@ canvas {
 #game-wrapper {
     display: grid;
     justify-content: center;
-    padding-top: 16px;
     grid-template-columns: 1fr auto 1fr;
 }
 
 #player-section {
     display: grid;
     grid-template-columns: minmax(1fr, 400px);
-    grid-template-rows: auto auto auto 1fr;
+    grid-template-rows: auto auto auto auto auto 1fr;
     gap: 16px;
     align-items: baseline;
     justify-content: center;
@@ -165,11 +179,22 @@ canvas {
 #cpu-section {
     display: grid;
     grid-template-columns: minmax(1fr, 400px);
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto auto 1fr auto;
     gap: 16px;
     align-items: baseline;
     justify-content: center;
     text-align: center;
+}
+
+#links {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+#links img:hover {
+    cursor: pointer;
 }
 
 .dice-wrapper {
@@ -193,11 +218,12 @@ canvas {
 
 .three-dice-wrapper {
     position: relative;
+    height: 50px;
 }
 
 .three-dice {
     top: 10px;
-    left: 6px;
+    left: -19px;
     width: 40px;
     height: 40px;
     border-radius: 5px;
@@ -218,12 +244,26 @@ canvas {
 
 .triangle {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0px;
+    left: -25px;
     width: 0;
     height: 0;
     border: 26px solid transparent;
     border-top: 0;
     border-bottom: 50px solid #fafafa;
     border-radius: 8px;
+}
+
+#effects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+}
+
+.power-up {
+    color: #169316;
+}
+
+.power-down {
+    color: var(--error-color);
 }
