@@ -85,8 +85,64 @@ button:hover {
     cursor: pointer;
 }
 
+button:disabled {
+    background-color: var(--inputs-on-disabled);
+    cursor: not-allowed;
+}
+
 canvas {
     background-color: #fff;
+}
+
+#rolling-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.85) 43%, rgba(0, 0, 0, 0.85) 57%, rgba(0, 0, 0, 0) 75%);
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+#rolling-text {
+    font-size: 4em;
+    color: var(--error-color);
+}
+
+#game-over-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(0, 0, 0, 0.5);
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+#game-over-surface {
+    background-color: var(--surface-on);
+    color: var(--surface-color);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.dynamic-text {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-items: center;
+    gap: 8px;
 }
 
 #game-wrapper {
@@ -104,12 +160,6 @@ canvas {
     align-items: baseline;
     justify-content: center;
     text-align: center;
-}
-
-#player-moves-info {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 4px;
 }
 
 #cpu-section {
@@ -141,12 +191,17 @@ canvas {
     justify-items: center;
 }
 
+.three-dice-wrapper {
+    position: relative;
+}
+
 .three-dice {
-    width: 50px;
-    height: 50px;
+    top: 10px;
+    left: 6px;
+    width: 40px;
+    height: 40px;
     border-radius: 5px;
-    background-color: #fafafa;
-    border: 1px solid #232323;
+    position: absolute;
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
@@ -159,4 +214,16 @@ canvas {
     width: 10px;
     height: 10px;
     border-radius: 5px;
+}
+
+.triangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 26px solid transparent;
+    border-top: 0;
+    border-bottom: 50px solid #fafafa;
+    border-radius: 8px;
 }

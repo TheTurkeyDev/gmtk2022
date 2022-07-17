@@ -1,14 +1,28 @@
+/** === Elements === */
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext('2d');
 const endTurnBtn = document.getElementById("end-turn-btn");
+const playAgainBtn = document.getElementById("play-again-btn");
 const playerMoveLeftSpan = document.getElementById("player-moves-left");
+const rollingWrapper = document.getElementById("rolling-wrapper");
+const gameOverDisplay = document.getElementById("game-over-wrapper");
+const gameOverScore = document.getElementById("game-over-score");
+
+/** === Misc Constants === */
 const HEIGHT = 500;
 const POINT_RADIUS = 4;
+const MOVE_PER_SEC = 1;
+
+/** === Sounds === */
+const POP_SFX = new Audio('./sounds/pop.wav');
+const UNDO_SFX = new Audio('./sounds/undo.wav');
+setSoundVolume(0.75); //TODO remove? Atleast give option to change value
 
 /**=== Game States === */
-ROLLING = 0;
-CPU_MOVING = 1;
-PLAYER_MOVING = 2;
+const ROLLING = 0;
+const END_TURN = 1;
+const PLAYER_MOVING = 2;
+const GAME_OVER = 3;
 
 /** === Dice Setup */
 const THREE_DICE_DISPLAYS = [
@@ -45,25 +59,54 @@ for (let i = 0; i < 7; i++) {
 let currentPlayerDie = PLAYER_DICE;
 let currentCPUDie = THREE_CPU_DICE;
 
-/** */
+/** Game variables */
 
 let gamestate = ROLLING;
+let lastRender = 0;
 
 const points = [];
+let heightPointY = 0;
 let linePoints = [];
-let playerPos = { x: 3, y: 0 };
+let playerPos = { x: 3, y: 2 };
 let hoverPos = { x: -1, y: -1 };
 let dragFrom = { x: -1, y: -1 };
 let dragPos = { x: -1, y: -1 };
 let playerMoves = 0;
 let cpuMoves = 0;
+let cpuHeight = -0.5;
+let dotsOffset = 0;
+let cpuHeightTarget = -0.5;
+let dotsOffsetTarget = 0;
+
+/** Event listeners */
 
 endTurnBtn.onclick = event => {
-    playerPos = linePoints[linePoints.length - 1];
+    const newPlayerPos = linePoints[linePoints.length - 1];
+    const yChange = playerPos.y - newPlayerPos.y;
+    playerPos = newPlayerPos;
     linePoints = [playerPos];
     dragFrom = { x: -1, y: -1 };
     dragPos = { x: -1, y: -1 };
-    rollDice();
+    cpuHeightTarget = cpuHeight + cpuMoves;
+    dotsOffsetTarget = dotsOffset + yChange;
+    for (let y = 0; y < -yChange; y++) {
+        for (let x = 0; x < 7; x++) {
+            points.push({ x, y: heightPointY + y });
+        }
+    }
+    heightPointY += Math.max(0, -yChange);
+    const len = points.length;
+    for (let i = 0; i < len; i++) {
+        const p = points.shift();
+        if (p.y >= heightPointY - (10 - yChange)) {
+            points.push(p);
+        }
+    }
+    setGameState(END_TURN);
+}
+
+playAgainBtn.onclick = event => {
+    initGame();
 }
 
 canvas.onclick = event => {
@@ -103,6 +146,7 @@ canvas.onmouseup = event => {
     const validDot = getValidEndPos(dragFrom).findIndex(p => p.x === endDot.x && p.y === endDot.y) !== -1;
     if (endDot.x !== -1 && dragFrom.x !== -1 && validDot) {
         linePoints.push({ x: endDot.x, y: endDot.y });
+        POP_SFX.play();
     }
     dragFrom = { x: -1, y: -1 };
     dragPos = { x: -1, y: -1 };
@@ -127,6 +171,37 @@ canvas.onmousedown = event => {
         if (index != -1) {
             linePoints = linePoints.slice(0, index + 1);
             dragFrom = dot;
+            UNDO_SFX.play();
+        }
+    }
+}
+
+
+/** Logic */
+
+function loop(timestamp) {
+    render();
+    update((timestamp - lastRender) / 1000);
+    lastRender = timestamp;
+    window.requestAnimationFrame(loop);
+}
+
+function update(delta) {
+    if (gamestate === END_TURN) {
+        if (cpuHeight <= cpuHeightTarget) {
+            cpuHeight = Math.min(cpuHeightTarget, cpuHeight + (MOVE_PER_SEC * delta));
+        }
+
+        if (dotsOffset >= dotsOffsetTarget) {
+            dotsOffset = Math.max(dotsOffsetTarget, dotsOffset - (MOVE_PER_SEC * delta));
+        }
+
+        if (cpuHeight >= playerPos.y) {
+            setGameState(GAME_OVER);
+        }
+
+        if (cpuHeight === cpuHeightTarget && dotsOffset === dotsOffsetTarget) {
+            setGameState(ROLLING);
         }
     }
 }
@@ -180,21 +255,38 @@ function render() {
         ctx.stroke();
     }
 
+    const cpuCanvasPos = convertToCanvasCords({ x: 0, y: cpuHeight });
+    ctx.beginPath();
+    ctx.fillStyle = "#bf6321";
+    ctx.fillRect(0, cpuCanvasPos.y, canvas.width, canvas.height - cpuCanvasPos.y);
+    ctx.fill();
+
     playerMoveLeftSpan.innerHTML = playerMoves - (linePoints.length - 1);
 }
 
 function initGame() {
+    while (points.length > 0)
+        points.pop();
+
+    linePoints = [];
+    playerPos = { x: 3, y: 2 };
+    cpuHeight = -0.5;
+    dotsOffset = 0;
+    cpuHeightTarget = -0.5;
+    dotsOffsetTarget = 0;
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 7; x++) {
             points.push({ x, y });
         }
     }
+    heightPointY = 9;
     linePoints.push(playerPos);
-    rollDice();
+    setGameState(ROLLING);
 }
 
 function convertToCanvasCords(pos) {
-    return { x: 50 + (pos.x * 50), y: HEIGHT - (50 + (pos.y * 50)) };
+    const y = pos.y + dotsOffset;
+    return { x: 50 + (pos.x * 50), y: HEIGHT - (50 + (y * 50)) };
 }
 
 function getClickedGridDot(pos) {
@@ -236,7 +328,6 @@ function getValidEndPos(currPos) {
 }
 
 function rollDice() {
-    gamestate = ROLLING;
     let rolls = 0;
     let rollInterval = setInterval(() => {
         playerMoves = Math.floor((Math.random() * (currentPlayerDie.mask.length - 1)) + 1);
@@ -245,8 +336,8 @@ function rollDice() {
         displayDiceNumber(currentCPUDie, cpuMoves);
         rolls++;
         if (rolls > 20) {
-            gamestate = PLAYER_MOVING;
             clearInterval(rollInterval);
+            setGameState(PLAYER_MOVING);
         }
     }, 100);
 }
@@ -258,9 +349,41 @@ function displayDiceNumber(dice, num) {
     }
 }
 
-function loop(timestamp) {
-    render();
-    window.requestAnimationFrame(loop);
+function setSoundVolume(volume) {
+    POP_SFX.volume = volume;
+    UNDO_SFX.volume = volume;
+}
+
+function setGameState(nextState) {
+    switch (gamestate) {
+        case ROLLING:
+            rollingWrapper.setAttribute("style", "display: none");
+            break;
+        case END_TURN:
+            endTurnBtn.disabled = false;
+            break;
+        case PLAYER_MOVING:
+            break;
+        case GAME_OVER:
+            gameOverDisplay.setAttribute("style", "display: none");
+            break;
+    }
+    gamestate = nextState;
+    switch (gamestate) {
+        case ROLLING:
+            rollingWrapper.setAttribute("style", "display: grid");
+            rollDice();
+            break;
+        case END_TURN:
+            endTurnBtn.disabled = true;
+            break;
+        case PLAYER_MOVING:
+            break;
+        case GAME_OVER:
+            gameOverScore.innerHTML = playerPos.y;
+            gameOverDisplay.setAttribute("style", "display: grid");
+            break;
+    }
 }
 
 initGame();

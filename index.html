@@ -15,13 +15,16 @@
         <div id="cpu-section">
             <h2>CPU</h2>
             <div class="dice-wrapper">
-                <div class="three-dice" style="display: grid;">
-                    <div></div>
-                    <div class="dice-dot" id="cpu-tdd-1"></div>
-                    <div></div>
-                    <div class="dice-dot" id="cpu-tdd-2"></div>
-                    <div></div>
-                    <div class="dice-dot" id="cpu-tdd-3"></div>
+                <div class="three-dice-wrapper">
+                    <div class="triangle"></div>
+                    <div class="three-dice" style="display: grid;">
+                        <div></div>
+                        <div class="dice-dot" id="cpu-tdd-1"></div>
+                        <div></div>
+                        <div class="dice-dot" id="cpu-tdd-2"></div>
+                        <div></div>
+                        <div class="dice-dot" id="cpu-tdd-3"></div>
+                    </div>
                 </div>
                 <div class="six-dice" style="display: none;">
                     <div class="dice-dot" id="cpu-dd-1"></div>
@@ -52,11 +55,28 @@
                     <div class="dice-dot" id="player-dd-7"></div>
                 </div>
             </div>
-            <div id="player-moves-info">
+            <div id="dynamic-text">
                 <span>Moves Left:</span>
                 <span id="player-moves-left">0</span>
             </div>
             <button id="end-turn-btn">End Turn</button>
+        </div>
+    </div>
+    <div id="rolling-wrapper">
+        <h1 id="rolling-text">Rolling...</h1>
+    </div>
+    <div id="game-over-wrapper" style="display: none;">
+        <div id="game-over-surface">
+            <h1 id="game-over-text">Game Over!</h1>
+            <div class="dynamic-text">
+                <h3>Final Score:</h3>
+                <h3 id="game-over-score"></h3>
+            </div>
+            <div class="dynamic-text">
+                <h3>High Score:</h3>
+                <h3 id="high-score">TODO</h3>
+            </div>
+            <button id="play-again-btn">Play Again</button>
         </div>
     </div>
 </body>
