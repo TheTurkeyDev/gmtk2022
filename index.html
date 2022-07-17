@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="shortcut icon" type="image/ico" href="/src/assets/favicon.ico" />
+    <title>GMTK 2022</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="game-wrapper">
+        <div id="cpu-section">
+            <h2>CPU</h2>
+            <div class="dice-wrapper">
+                <div class="three-dice" style="display: grid;">
+                    <div></div>
+                    <div class="dice-dot" id="cpu-tdd-1"></div>
+                    <div></div>
+                    <div class="dice-dot" id="cpu-tdd-2"></div>
+                    <div></div>
+                    <div class="dice-dot" id="cpu-tdd-3"></div>
+                </div>
+                <div class="six-dice" style="display: none;">
+                    <div class="dice-dot" id="cpu-dd-1"></div>
+                    <div></div>
+                    <div class="dice-dot" id="cpu-dd-2"></div>
+                    <div class="dice-dot" id="cpu-dd-3"></div>
+                    <div class="dice-dot" id="cpu-dd-4"></div>
+                    <div class="dice-dot" id="cpu-dd-5"></div>
+                    <div class="dice-dot" id="cpu-dd-6"></div>
+                    <div></div>
+                    <div class="dice-dot" id="cpu-dd-7"></div>
+                </div>
+            </div>
+        </div>
+        <canvas id="game" width="400px" height="500px"></canvas>
+        <div id="player-section">
+            <h2>Player</h2>
+            <div class="dice-wrapper">
+                <div class="six-dice">
+                    <div class="dice-dot" id="player-dd-1"></div>
+                    <div></div>
+                    <div class="dice-dot" id="player-dd-2"></div>
+                    <div class="dice-dot" id="player-dd-3"></div>
+                    <div class="dice-dot" id="player-dd-4"></div>
+                    <div class="dice-dot" id="player-dd-5"></div>
+                    <div class="dice-dot" id="player-dd-6"></div>
+                    <div></div>
+                    <div class="dice-dot" id="player-dd-7"></div>
+                </div>
+            </div>
+            <div id="player-moves-info">
+                <span>Moves Left:</span>
+                <span id="player-moves-left">0</span>
+            </div>
+            <button id="end-turn-btn">End Turn</button>
+        </div>
+    </div>
+</body>
+<script src="./game.js"></script>
+
+</html>

@@ -1,0 +1,162 @@
+:root {
+    --background-color: #212529;
+    --background-on: #d8d8d8;
+    --navbar-color: #343A40;
+    --navbar-on: #d8d8d8;
+    --surface-color: #333B44;
+    --surface-on: #d8d8d8;
+    --inputs-color: #343A40;
+    --inputs-color-disabled: #61696C;
+    --inputs-outline-raised: #ffffff65;
+    --inputs-outline-lowered: #00000066;
+    --inputs-on: #fff;
+    --inputs-on-variant: #899295;
+    --inputs-on-disabled: #b3babd;
+    --primary-color: #b3babd;
+    --primary-on: #fff;
+    --secondary-color: #009FBF;
+    --secondary-on: #009FBF;
+    --error-color: #ba1b1b;
+    --error-on: #fff;
+}
+
+html[data-theme='dark'] {
+    --background-color: #212529;
+    --background-on: #d8d8d8;
+    --navbar-color: #343A40;
+    --navbar-on: #d8d8d8;
+    --surface-color: #333B44;
+    --surface-on: #d8d8d8;
+    --inputs-color: #343A40;
+    --inputs-color-disabled: #61696C;
+    --inputs-outline-raised: #ffffff65;
+    --inputs-outline-lowered: #00000066;
+    --inputs-on: #fff;
+    --inputs-on-variant: #899295;
+    --inputs-on-disabled: #b3babd;
+    --primary-color: #b3babd;
+    --primary-on: #fff;
+    --secondary-color: #009FBF;
+    --secondary-on: #009FBF;
+    --error-color: #ba1b1b;
+    --error-on: #fff;
+}
+
+html[data-theme='light'] {
+    --background-color: #E5E5E5;
+    --background-on: #343A40;
+    --navbar-color: #fafafa;
+    --navbar-on: #343A40;
+    --surface-color: #f1f1f1;
+    --surface-on: #343A40;
+    --inputs-color: #BFC8CC;
+    --inputs-color-disabled: #d8d8d8;
+    --inputs-outline-raised: #05050540;
+    --inputs-outline-lowered: #00000099;
+    --inputs-on: #212529;
+    --inputs-on-variant: #899295;
+    --inputs-on-disabled: #767c7e;
+    --primary-color: #009FBF;
+    --primary-on: #212529;
+    --secondary-color: #00687D;
+    --secondary-on: #fff;
+    --error-color: #ffb4a9;
+    --error-on: #680003;
+}
+
+html,
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--background-color);
+    color: var(--background-on);
+    margin: 0;
+}
+
+button {
+    background-color: var(--secondary-color);
+    color: var(--primary-on);
+    border: 0;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+canvas {
+    background-color: #fff;
+}
+
+#game-wrapper {
+    display: grid;
+    justify-content: center;
+    padding-top: 16px;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+#player-section {
+    display: grid;
+    grid-template-columns: minmax(1fr, 400px);
+    grid-template-rows: auto auto auto 1fr;
+    gap: 16px;
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+}
+
+#player-moves-info {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 4px;
+}
+
+#cpu-section {
+    display: grid;
+    grid-template-columns: minmax(1fr, 400px);
+    grid-template-rows: auto auto 1fr;
+    gap: 16px;
+    align-items: baseline;
+    justify-content: center;
+    text-align: center;
+}
+
+.dice-wrapper {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+
+.six-dice {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    border: 1px solid #232323;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.three-dice {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    border: 1px solid #232323;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.dice-dot {
+    background-color: #111111;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+}
